@@ -7,3 +7,129 @@ nvm alias default 14
 
                             BÀI 1 CÀI ĐẶT SASS
 1. set up môi trường sass " npm install --save-exact$1.48.0 ";
+sass cho phép lồng các element con vào trong element cha
+2. rsf (react function component) tạp form component tự động 
+3. cài đặt react-router-dom bằng câu lệnh " npm install --save-exact react-router-dom@5.3.0 "
+
+4. chuyển trang với react router import Nav from "./components/navigation/nav";
+import "./App.scss";
+import {
+  BrowserRouter as Router,
+
+  Route,
+
+} from "react-router-dom";
+function App() {
+  return (
+    <Router>
+      <div className="app-container">
+        <Nav />
+        <switch>
+          <Route path="/news">
+            news
+          </Route>
+          <Route path="/about">
+            about
+          </Route>
+          <Route path="/contact">
+            contact
+          </Route>
+        </switch>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+
+                BÀI 2: CÀI ĐẶT BOOTSTRAP tạo file login.js và code giao điện login fb
+
+1. CÂU LỆNH " npm install --save-exact bootstrap@5.1.3 "
+class display none khi man hinh ở size sm " d-none d-sm-block "
+nãy giờ thầy dạy bootstrap max hay mà ko chịu xem
+break point bootstrap
+2. câu lệnh display none khi màn hình nhỏ "  d-sm-none "
+
+                    BÀI 3: TẠO FORM ĐK BẰNG USEHISTORY
+1. import usehistory vào file login để xài hàm chuyển trang bằng sk onclick  " import { useHistory } from 'react-router-dom'; "
+2. tạo function nhận sự kiện onclick 
+   let history = useHistory();
+    const handleCreateNewAccount = () => {
+        alert("me")
+    }
+    à version này éo cho dùng his nữa xài lại link đi em
+  tạo file register chứa các input đk rồi submit cho về lại login
+
+
+
+                    BÀI 3: install axios và test api bằng useEffect
+
+1.  câu lệnh install axios "   npm install --save-exact axios@0.25.0 "
+2. 3 thư viện dùng để call api và tạo request
+  - axios (mạnh nhất)
+  - fetch
+  - request
+3. để dùng axios thì import nó vào file register " import axios from "axios" "
+
+import axios from "axios"
+import { useEffect } from 'react';
+import "../register/register.scss";
+const Register = (props) => {
+    const getApi = () => {
+
+    }
+    useEffect(() => {
+        axios.get("https://reqres.in/api/users?page=2").then(data => {
+            console.log(">>>check api dataa", data);
+        })
+    }, [])
+}
+
+import hàm useEffect và axios để test api và dùng useefect để đọc json từ api
+-> lên trang https://reqres.in/ để lấy api có sẳn bỏ vào axios.get để đọc object được render ra từ console.log
+lần đầu tiên biết xài api đã quá quăng log ra cho ae coi chơi nè
+thôi dài quá đéo bỏ nữa
+nestjs nó viết cả font end và backend cùng trong một pj (2 trong 1 lên dễ bị hack web tin tức ưu tiên xài bị hack cũng đéo mất gì nên xài để đỡ mất time cấu hình hệ thống) tách riêng dễ nâng cấp
+
+5. qua jwtbackend viết api
+
+                              BÀI 4 : LẤY DATA TỪ FORM ĐĂNG KÝ
+
+1. import useState vào file register
+import { useEffect, useState } from 'react';
+2. khai báo biến
+ const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [comfirmPassword, setComfirmPassword] = useState("");
+3. đặt name value để lấy data
+ <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                value={email} onChange={(event) => setEmail(event.target.value)} />
+   <input type="phone" class="form-control" id="exampleInputPhoneNumber"
+                                value={phone} onChange={(event) => setPhone(event.target.value)} />
+  <input type="text" class="form-control" id="exampleInputUserName"
+                                value={username} onChange={(event) => setUsername(event.target.value)} />
+ <input type="password" class="form-control" id="exampleInputPassword1"
+                                value={password} onChange={(event) => setPassword(event.target.value)} />
+ <input type="password" class="form-control" id="exampleInputComfirmPassword"
+                                value={comfirmPassword} onChange={(event) => setComfirmPassword(event.target.value)} />
+
+4. đặt sự kiện ở nut button không cần form bọc ngoài vẫn lấy đc data
+   <button type="submit" class="btn btn-primary form-control link" onClick={() => hanldeRegister()} > Register</button><br></br>
+  
+5. Viết hàm get data 
+ const hanldeRegister = () => {
+        let userData =
+        {
+            email: email,
+            phone: phone,
+            username: username,
+            password: password
+        }
+        console.log(">>>check userData :", userData);
+    }
+
+                        BÀI 5: VALIDATE FORM WITH REACT
+
+

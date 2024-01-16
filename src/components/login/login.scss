@@ -1,0 +1,61 @@
+body {
+    background-color: #f0f2f5;
+
+    .login-container {
+        background-color: #f0f2f5;
+
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+
+        }
+
+        .content-left {
+            margin: 30%;
+
+            .logo {
+                font-size: 25px;
+                color: rgb(45, 45, 245);
+            }
+        }
+
+        .content-right {
+            Link {
+                text-decoration: none;
+            }
+
+            .logo {
+                font-size: 25px;
+                color: rgb(45, 45, 245);
+                text-align: center;
+            }
+
+            border: 0px solid black;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            padding: 20px;
+            width: 400px;
+            margin-top: 100px;
+
+
+            .forgot {
+                text-align: center;
+                margin: 10px;
+
+                a {
+                    text-decoration: none;
+                }
+
+                a:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            .btn-success {
+                background-color: rgb(22, 189, 22);
+            }
+        }
+    }
+}

@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.scss';
+import React from "react";
+import { Routes, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Nav from "./components/navigation/nav";
+import "./App.scss";
+import Login from "./components/login/login";
+import Register from "./components/register/register";
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Hello world React with Hoi Dan IT
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <Routes>
+      <Route path="/nav" element={<Nav />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={< Register />} />
+    </Routes>
   );
 }
 
