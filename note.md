@@ -133,3 +133,89 @@ import { useEffect, useState } from 'react';
                         BÀI 5: VALIDATE FORM WITH REACT
 
 
+1. cài package thông báo lỗi npm react toastify " npm install --save-exact toastify@8.1.0 " những lỗi nên chuyển qua version thấp hơn 6.2.0
+2. import nó vô  
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+3. xài ở các vị trí 
+ const hanldeRegister = () => {
+
+        let userData =
+        {
+            email: email,
+            phone: phone,
+            username: username,
+            password: password
+        }
+        console.log(">>>check userData :", userData);
+        toast.success("Wow so easy!");
+    }
+   <ToastContainer /> nằm trong form 
+validate
+const Register = (props) => {
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [comfirmPassword, setComfirmPassword] = useState("");
+    const defaultValidInput = {
+        isValidEmail: true,
+        isValidPhone: true,
+        isValidPassword: true,
+        isValidComfirmPassword: true
+    }
+    const [isCheckInput, setIsCheckInput] = useState({
+
+    })
+     const isValidInput = () => {
+        setIsCheckInput(defaultValidInput)
+        if (!email) {
+            toast.error("Email is required !");
+            console.log(">>>check defauvalid", { ...defaultValidInput });
+            console.log(">>>check defauvalid", { ...defaultValidInput, isValidEmail: false });
+            setIsCheckInput(prevState => ({ ...prevState, isValidEmail: false }));
+
+            return false;
+        }
+        if (!phone) {
+            toast.error("Phone is required !");
+            return false
+        }
+        if (!username) {
+            toast.error("Username is required !");
+            return false
+        }
+        if (!password) {
+            toast.error("Password is required !");
+            return false
+        }
+        if (password != comfirmPassword) {
+            toast.error("Password is not comfirmpassword !");
+            return false
+        }
+        // let regx = /@/
+        // if (email !== regx) {
+        //     toast.error("Please enter a valid email address !");
+        //     return false
+        // }
+        toast.success("Please wating loading...");
+        return true;
+
+    }
+
+    const hanldeRegister = () => {
+
+        let check = isValidInput();
+        let userData =
+        {
+            email: email,
+            phone: phone,
+            username: username,
+            password: password
+        }
+        console.log(">>>check userData :", userData);
+        // toast.success("Wow so easy!");
+    }
+     <input type="email" class={isCheckInput.isValidEmail ? 'form-control' : 'form-control is-invalid'} id="exampleInputEmail1" aria-describedby="emailHelp"
+    <input type="phone" class={isCheckInput.isValidPhone ? 'form-control' : 'form-control is-invalid'} id="exampleInputPhoneNumber"
