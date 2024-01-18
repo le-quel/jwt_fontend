@@ -1,12 +1,19 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios"
-// import { useEffect, useState } from 'react';
+
 import { useState, useEffect } from 'react';
 import "../register/register.scss";
+import { registerNewUser } from "../../services/userServices";
+
+
+
+
+// ...
+
+
 const Register = (props) => {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
@@ -59,7 +66,7 @@ const Register = (props) => {
             toast.error("Password is required !");
             return false
         }
-        if (password != comfirmPassword) {
+        if (password !== comfirmPassword) {
             toast.error("Password is not comfirmpassword !");
             return false
         }
@@ -72,14 +79,22 @@ const Register = (props) => {
         return true;
 
     }
-
-    const hanldeRegister = () => {
+    const navigate = useNavigate();
+    const hanldeRegister = async () => {
 
         let check = isValidInput();
-        if (check == true) {
-            axios.post('http://localhost:8080/api/v14/register', {
-                email, phone, username, password
-            })
+        if (check === true) {
+            // sử dụng hàm thông qua file services
+            let response = await registerNewUser(email, phone, username, password)
+            let serverData = response.data
+            if (+serverData.EC === 0) {
+                toast.success(serverData.EM)
+
+                navigate('/login');
+            } else {
+                toast.error(serverData.EM)
+            }
+            console.log(">>>>check data register: ", response);
         }
         // let userData =
         // {

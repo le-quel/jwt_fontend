@@ -219,3 +219,34 @@ const Register = (props) => {
     }
      <input type="email" class={isCheckInput.isValidEmail ? 'form-control' : 'form-control is-invalid'} id="exampleInputEmail1" aria-describedby="emailHelp"
     <input type="phone" class={isCheckInput.isValidPhone ? 'form-control' : 'form-control is-invalid'} id="exampleInputPhoneNumber"
+
+
+                          BÀI 6: 
+              
+1. đổi cấu trúc get api register bằng hàm userServices rồi import vô register
+import axios from "axios";
+const registerNewUser = (email, phone, username, password) => {
+    return axios.post('http://localhost:8080/api/v14/register', {
+        email, phone, username, password
+    })
+}
+export { registerNewUser }
+
+file register 
+  const hanldeRegister = async () => {
+
+        let check = isValidInput();
+        if (check == true) {
+            // sử dụng hàm thông qua file services
+            let response = await registerNewUser(email, phone, username, password)
+            let serverData = response.data
+            if (+serverData.EC === 0) {
+                toast.success(serverData.EM)
+
+                this.props.history.push("/login");
+            } else {
+                toast.error(serverData.EM)
+            }
+            console.log(">>>>check data register: ", response);
+        }
+  hàm history chưa chuyển trang được để fix sau
