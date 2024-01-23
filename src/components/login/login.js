@@ -31,7 +31,24 @@ const Login = (props) => {
             toast.error("Please enter your password")
             return
         }
-        await loginUser(valueLogin, password);
+        let response = await loginUser(valueLogin, password);
+        if (response && response.data && +response.data.EC === 0) {
+            // success
+            console.log(">>> check respon đúng: ", valueLogin, password);
+            toast.success("success")
+            let data = {
+                isAuthentication: true,
+                token: "fake token"
+            }
+            sessionStorage.setItem("account", JSON.stringify(data));
+            navigate('/Users');
+        }
+        if (response && response.data && +response.data.EC !== 0) {
+            // failed
+            console.log(">>> check respon sai: ", valueLogin, password);
+            toast.error(response.data.error.EM)
+        }
+        console.log(">>>>check font-end", response.data);
     }
     return (
         <div className="login-container">

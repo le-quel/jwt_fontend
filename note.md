@@ -221,7 +221,7 @@ const Register = (props) => {
     <input type="phone" class={isCheckInput.isValidPhone ? 'form-control' : 'form-control is-invalid'} id="exampleInputPhoneNumber"
 
 
-                          BÀI 6: 
+                          BÀI 6: Cấu hình lại api register
               
 1. đổi cấu trúc get api register bằng hàm userServices rồi import vô register
 import axios from "axios";
@@ -250,3 +250,160 @@ file register
             console.log(">>>>check data register: ", response);
         }
   hàm history chưa chuyển trang được để fix sau
+
+                                    BÀI 7: API LOGIN
+      
+1. file login import và một số hàm 
+import { Link, useNavigate } from 'react-router-dom';
+import React from "react";
+import { useState } from "react";
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import { loginUser } from '../../services/userServices';
+const [valueLogin, setValueLogin] = useState("")
+    const [password, setPassword] = useState("")
+    const defaultObjValidInput = {
+        isValidValueLogin: true,
+        isValidPassword: true
+    }
+    const [ObjValidInput, setObjValidInput] = useState(defaultObjValidInput)
+    const navigate = useNavigate();
+    const hanldeLoginCreateNewAccount = () => {
+        navigate('/register');
+    }
+    const hanldeLogin = async () => {
+        setObjValidInput(defaultObjValidInput);
+
+        if (!valueLogin) {
+            setObjValidInput({ ...defaultObjValidInput, isValidLogin: false })
+            toast.error("Please enter email or phone number")
+            return
+        } else if (!password) {
+            setObjValidInput({ ...defaultObjValidInput, isValidPassword: false })
+            toast.error("Please enter your password")
+            return
+        }
+        await loginUser(valueLogin, password);
+    }
+2. input có element như sau 
+  <input type="password" className={ObjValidInput.isValidPassword ? 'form-control' : 'is_invalid form-control'} 
+  autoComplete="current-password"  value={password} onChange={(event) => setPassword(event.target.value)} />
+  <input type="email" className={ObjValidInput.isValidValueLogin ? 'form-control' : 'is_invalid form-control'} id="exampleInputEmail1 aria-describedby="emailHelp" autoComplete="email" value={valueLogin} onChange={(event) => setValueLogin(event.target.value)} />
+
+3.   ở backend tạo hàm api mới như các hàm api login ở loginRegister và cấu hình router là đc 
+file api.js
+  router.post("/login", apicontroller.handleLogin)
+file apihomecontroller
+const handleLogin = async (req, res) => {
+    return res.status(200).json({
+        EM: 'Login successful',
+        EC: '0',
+        DT: '',
+        data: 'Login success!'
+    });
+}
+
+                                BÀI 8: vIẾT API LOGIN Ở BACKEND
+            
+.end chức năng login
+ dùng navigation để chuyển trang khi đăng nhập thành công
+ tạo component user
+ 1. file users.js
+ import { NavLink } from 'react-router-dom';
+const User = (props) => {
+    return (
+        <div>
+            users component
+            <div>
+                <ul>
+                    <li><NavLink to="/">Home</NavLink></li>
+                    <li><NavLink to="/news">News</NavLink></li>
+                    <li><NavLink to="/about">About</NavLink></li>
+                    <li><NavLink to="/contact">Contact</NavLink></li>
+                </ul>
+            </div>
+        </div>
+    )
+}
+export default User;
+2.  ở file app.js import và effecth token để kiểm tra
+ const [account, setAccount] = useState({});
+  useEffect(() => {
+    let session = sessionStorage.getItem("key");
+    if (session) {
+      setAccount(account);
+    }
+  }, []);
+      <Route path="/Users" element={< Users />} />
+3. cài đặt package lodash " npm install --save-exact lodash@4.17.21 ".
+và import vào file app.js 
+import _ from 'lodash';
+
+
+
+4. check session nếu có session mới cho vào user nếu ko sẽ đá lại trang login
+users.js
+import { useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+
+const Users = (props) => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        let session = sessionStorage.getItem("account");
+        if (!session) {
+            navigate('/login');
+        }
+    }, [])
+
+    return (
+        <div>
+            Users component
+            <div>
+                <ul>
+                    <li><NavLink to="/">Home</NavLink></li>
+                    <li><NavLink to="/news">News</NavLink></li>
+                    <li><NavLink to="/about">About</NavLink></li>
+                    <li><NavLink to="/contact">Contact</NavLink></li>
+                </ul>
+            </div>
+        </div>
+    )
+}
+
+export default Users;
+
+App.js
+import React from "react";
+import { Routes, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState, useEffect } from 'react';
+import Nav from "./components/navigation/nav";
+import "./App.scss";
+import Login from "./components/login/login";
+import Register from "./components/register/register";
+import Users from "./components/ManagerUser/Users";
+import _ from 'lodash';
+function App() {
+  const [account, setAccount] = useState({});
+  useEffect(() => {
+    let session = sessionStorage.getItem("key");
+    if (session) {
+      setAccount(JSON.parse(session));
+
+    }
+  }, []);
+  return (
+
+    <Routes>
+      {account && !_.isEmpty(account) && account.isAuthentication && < Users />}
+      <Route path="/nav" element={<Nav />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={< Register />} />
+      <Route path="/Users" element={< Users />} />
+    </Routes>
+  );
+}
+
+export default App;
+
