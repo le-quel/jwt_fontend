@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
@@ -42,6 +42,7 @@ const Login = (props) => {
             }
             sessionStorage.setItem("account", JSON.stringify(data));
             navigate('/Users');
+            window.location.reload();
         }
         if (response && response.data && +response.data.EC !== 0) {
             // failed
@@ -50,6 +51,18 @@ const Login = (props) => {
         }
         console.log(">>>>check font-end", response.data);
     }
+
+    const handlePressEnter = (event) => {
+        if (event.charCode === 13 && event.code === "Enter") {
+            hanldeLogin()
+        }
+    };
+    useEffect(() => {
+        let session = sessionStorage.getItem('account')
+        if (session) {
+            navigate("/users")
+        }
+    }, [navigate])
     return (
         <div className="login-container">
             <div className="container">
@@ -64,13 +77,16 @@ const Login = (props) => {
                             <div className="logo d-sm-none">HOI DAN IT</div>
                             <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                             <input type="email" className={ObjValidInput.isValidValueLogin ? 'form-control' : 'is_invalid form-control'} id="exampleInputEmail1" aria-describedby="emailHelp" autoComplete="email"
-                                value={valueLogin} onChange={(event) => setValueLogin(event.target.value)} />
+                                value={valueLogin} onChange={(event) => setValueLogin(event.target.value)}
+                                onKeyPress={(event) => handlePressEnter(event)} />
 
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                             <input type="password" className={ObjValidInput.isValidPassword ? 'form-control' : 'is_invalid form-control'} autoComplete="current-password"
-                                value={password} onChange={(event) => setPassword(event.target.value)} />
+                                value={password} onChange={(event) => setPassword(event.target.value)}
+
+                                onKeyPress={(event) => handlePressEnter(event)} />
                         </div>
                         <ToastContainer />
                         <button type="submit" className="btn btn-primary form-control" onClick={() => hanldeLogin()}>Submit</button><br></br>

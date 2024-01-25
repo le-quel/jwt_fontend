@@ -406,4 +406,22 @@ function App() {
 }
 
 export default App;
+5. ấn enter submit 
+ onKeyPress={(event) => handlePressEnter(event)}
+ const handlePressEnter = (event) => {
+        if (event.charCode === 13 && event.code === "Enter") {
+            hanldeLogin()
+        }
+    };
 
+6. localstorage là lưu trữ vĩnh viễn có tắt trình duyệt cũng k mất
+sessionstorege là lưu trữ tạm thời tắt tab sẽ mất
+cookies lai giữa 2 đứa thời gian lưu trữ dài hơn session nên khi nào xóa nó mới mất
+7. 1 hàm useEfeact ở login để đẩy auto về users khi đã có session
+8. bootrap pagination để làm phân trang
+
+                        BÀI 9 : VIET API GỌI USER SHOW LÊN
+
+1. api xong rồi ko có ghi lại
+2. pagination react để phân trang 
+ npm install --save-exact react-paginate@8.1.0
